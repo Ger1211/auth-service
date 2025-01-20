@@ -51,7 +51,7 @@ public class AuthenticationControllerTests {
 
     @Test
     public void register_withoutPassword_responseBadRequest() throws Exception {
-        String customer = "{\"email\": \"valid@email.com\",\"password\": \"\" }";
+        String customer = "{\"email\": \"valid@email.com\"}";
         mockMvc.perform(MockMvcRequestBuilders.post("/api/registration")
                         .content(customer)
                         .contentType(MediaType.APPLICATION_JSON))
