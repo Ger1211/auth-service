@@ -1,4 +1,4 @@
-package io.github.ger1211.auth_service.unit;
+package io.github.ger1211.auth_service.unit.service;
 
 import io.github.ger1211.auth_service.AuthServiceApplicationTests;
 import io.github.ger1211.auth_service.builder.CustomerBuilder;

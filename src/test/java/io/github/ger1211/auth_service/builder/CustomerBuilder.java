@@ -14,7 +14,7 @@ public class CustomerBuilder extends AbstractPersistenceBuilder<Customer> {
     }
 
     public static CustomerBuilder valid(Long id) {
-        CustomerBuilder builder = new CustomerBuilder();
+        CustomerBuilder builder = CustomerBuilder.valid();
         builder.instance.setId(id);
         return builder;
     }
