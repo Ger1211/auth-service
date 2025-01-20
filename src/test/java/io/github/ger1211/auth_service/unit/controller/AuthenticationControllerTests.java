@@ -11,6 +11,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
 @WebMvcTest(AuthenticationController.class)
 @ContextConfiguration(classes= { SecurityConfig.class, AuthenticationController.class })
 public class AuthenticationControllerTests {
@@ -33,7 +35,8 @@ public class AuthenticationControllerTests {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/registration")
                         .content(customer)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(jsonPath("$.email").value("must not be empty"));
     }
 
     @Test
@@ -87,6 +90,7 @@ public class AuthenticationControllerTests {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/registration")
                         .content(customer)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(jsonPath("$.password").value("Password must contain at least one uppercase letter, one number, one special character, and be at least 8 characters long"));
     }
 }
