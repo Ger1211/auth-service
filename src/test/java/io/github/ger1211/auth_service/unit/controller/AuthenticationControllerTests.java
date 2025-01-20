@@ -36,7 +36,7 @@ public class AuthenticationControllerTests {
                         .content(customer)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(jsonPath("$.email").value("must not be empty"));
+                .andExpect(jsonPath("$.email").value("Email must not be empty"));
     }
 
     @Test
@@ -45,7 +45,8 @@ public class AuthenticationControllerTests {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/registration")
                         .content(customer)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(jsonPath("$.email").value("Email is invalid"));
     }
 
     @Test
@@ -54,7 +55,8 @@ public class AuthenticationControllerTests {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/registration")
                         .content(customer)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(jsonPath("$.password").value("Password must not be empty"));
     }
 
     @Test

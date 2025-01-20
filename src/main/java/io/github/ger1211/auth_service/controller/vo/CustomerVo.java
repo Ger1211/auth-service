@@ -8,11 +8,11 @@ import lombok.Data;
 @Data
 public class CustomerVo {
 
-    @Email
-    @NotEmpty
+    @Email(message = "Email is invalid")
+    @NotEmpty(message = "Email must not be empty")
     private String email;
 
-    @NotEmpty
+    @NotEmpty(message = "Password must not be empty")
     @Pattern(
             regexp = "^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
             message = "Password must contain at least one uppercase letter, one number, one special character, and be at least 8 characters long"
