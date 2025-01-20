@@ -10,7 +10,10 @@ public class CustomerBuilder extends AbstractPersistenceBuilder<Customer> {
     }
 
     public static CustomerBuilder valid() {
-        return new CustomerBuilder();
+        CustomerBuilder builder = new CustomerBuilder();
+        builder.instance.setEmail("valid@mail.com");
+        builder.instance.setPassword("Password123@");
+        return builder;
     }
 
     public static CustomerBuilder valid(Long id) {
