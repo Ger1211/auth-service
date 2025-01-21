@@ -1,7 +1,10 @@
 package io.github.ger1211.auth_service.service;
 
 import io.github.ger1211.auth_service.model.Customer;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -11,13 +14,18 @@ import java.util.Date;
 public class JwtService {
 
     private final SecretKey SECRET_KEY= Jwts.SIG.HS256.key().build();
-    private final Date TEN_HOURS = new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10);
+    private final long expirationTimeInMillis;
+
+    public JwtService(@Value("${jwt.token.expiration:60000}") long expirationTimeInMillis) {
+        this.expirationTimeInMillis = expirationTimeInMillis;
+    }
 
     public String generateToken(Customer customer) {
+        Date expirationDate = new Date(System.currentTimeMillis() + expirationTimeInMillis);
         return Jwts.builder()
                 .subject(customer.getEmail())
                 .issuedAt(new Date())
-                .expiration(TEN_HOURS)
+                .expiration(expirationDate)
                 .signWith(SECRET_KEY)
                 .compact();
     }
@@ -35,11 +43,24 @@ public class JwtService {
     }
 
     public String getSubject(String token) {
+        return this.extractClaims(token)
+                .getSubject();
+    }
+
+    public boolean isTokenExpired(String token) {
+        try {
+            extractClaims(token).getExpiration();
+            return false;
+        } catch (ExpiredJwtException exception) {
+            return true;
+        }
+    }
+
+    private Claims extractClaims(String token) {
         return Jwts.parser()
                 .verifyWith(SECRET_KEY)
                 .build()
                 .parseSignedClaims(token)
-                .getPayload()
-                .getSubject();
+                .getPayload();
     }
 }
