@@ -27,7 +27,7 @@ public class AuthenticationServiceTests extends AuthServiceApplicationTests {
     private PasswordEncoder passwordEncoder;
 
     @Test
-    public void register_withValidCustomer_returnARegisteredCustomer() {
+    void register_withValidCustomer_returnARegisteredCustomer() {
         Customer customer = CustomerBuilder.valid().build();
         Customer customerWithId = CustomerBuilder.valid(1L).build();
 
@@ -41,7 +41,7 @@ public class AuthenticationServiceTests extends AuthServiceApplicationTests {
     }
 
     @Test
-    public void register_withValidUser_returnACustomerWithEncryptedPassword() {
+    void register_withValidUser_returnACustomerWithEncryptedPassword() {
         String plainPassword = "PlainPassword123@";
         Customer customer = CustomerBuilder.valid().withPassword(plainPassword).build();
 

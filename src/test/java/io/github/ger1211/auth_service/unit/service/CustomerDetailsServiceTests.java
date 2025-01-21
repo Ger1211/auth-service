@@ -25,7 +25,7 @@ public class CustomerDetailsServiceTests extends AuthServiceApplicationTests {
     private CustomerDetailsService customerDetailsService;
 
     @Test
-    public void loadUserByUsername_withValidCustomer_returnUserDetail() {
+    void loadUserByUsername_withValidCustomer_returnUserDetail() {
         Customer customer = CustomerBuilder.valid().build();
 
         when(authenticationRepository.findByEmail(customer.getEmail())).thenReturn(Optional.of(customer));
@@ -37,7 +37,7 @@ public class CustomerDetailsServiceTests extends AuthServiceApplicationTests {
     }
 
     @Test
-    public void loadUserByUsername_withNonExistentEmail_throwsException() {
+    void loadUserByUsername_withNonExistentEmail_throwsException() {
         String nonExistentEmail = "nonExistent@mail.com";
         when(authenticationRepository.findByEmail(nonExistentEmail)).thenReturn(Optional.empty());
 

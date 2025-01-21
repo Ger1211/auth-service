@@ -26,7 +26,7 @@ public class AuthenticationControllerTests {
     private CustomerDetailsService customerDetailsService;
 
     @Test
-    public void register_withValidEmail_responseOk() throws Exception {
+    void register_withValidEmail_responseOk() throws Exception {
         String customer = "{\"email\": \"valid@email.com\",\"password\": \"Password123@\" }";
         mockMvc.perform(MockMvcRequestBuilders.post("/api/registration")
                         .content(customer)
@@ -35,7 +35,7 @@ public class AuthenticationControllerTests {
     }
 
     @Test
-    public void register_withoutEmail_responseBadRequest() throws Exception {
+    void register_withoutEmail_responseBadRequest() throws Exception {
         String customer = "{\"email\": \"\" }";
         mockMvc.perform(MockMvcRequestBuilders.post("/api/registration")
                         .content(customer)
@@ -45,7 +45,7 @@ public class AuthenticationControllerTests {
     }
 
     @Test
-    public void register_withInvalidEmail_responseBadRequest() throws Exception {
+    void register_withInvalidEmail_responseBadRequest() throws Exception {
         String customer = "{\"email\": \"invalid\" }";
         mockMvc.perform(MockMvcRequestBuilders.post("/api/registration")
                         .content(customer)
@@ -55,7 +55,7 @@ public class AuthenticationControllerTests {
     }
 
     @Test
-    public void register_withoutPassword_responseBadRequest() throws Exception {
+    void register_withoutPassword_responseBadRequest() throws Exception {
         String customer = "{\"email\": \"valid@email.com\"}";
         mockMvc.perform(MockMvcRequestBuilders.post("/api/registration")
                         .content(customer)
@@ -65,7 +65,7 @@ public class AuthenticationControllerTests {
     }
 
     @Test
-    public void register_withPasswordWithLessThan8Characters_responseBadRequest() throws Exception {
+    void register_withPasswordWithLessThan8Characters_responseBadRequest() throws Exception {
         String customer = "{\"email\": \"valid@email.com\",\"password\": \"pass\" }";
         mockMvc.perform(MockMvcRequestBuilders.post("/api/registration")
                         .content(customer)
@@ -74,7 +74,7 @@ public class AuthenticationControllerTests {
     }
 
     @Test
-    public void register_withPasswordWithoutUppercaseLetter_responseBadRequest() throws Exception {
+    void register_withPasswordWithoutUppercaseLetter_responseBadRequest() throws Exception {
         String customer = "{\"email\": \"valid@email.com\",\"password\": \"password123@\" }";
         mockMvc.perform(MockMvcRequestBuilders.post("/api/registration")
                         .content(customer)
@@ -83,7 +83,7 @@ public class AuthenticationControllerTests {
     }
 
     @Test
-    public void register_withPasswordWithoutNumber_responseBadRequest() throws Exception {
+    void register_withPasswordWithoutNumber_responseBadRequest() throws Exception {
         String customer = "{\"email\": \"valid@email.com\",\"password\": \"Password@\" }";
         mockMvc.perform(MockMvcRequestBuilders.post("/api/registration")
                         .content(customer)
@@ -92,7 +92,7 @@ public class AuthenticationControllerTests {
     }
 
     @Test
-    public void register_withPasswordWithoutSpecialCharacter_responseBadRequest() throws Exception {
+    void register_withPasswordWithoutSpecialCharacter_responseBadRequest() throws Exception {
         String customer = "{\"email\": \"valid@email.com\",\"password\": \"Password123\" }";
         mockMvc.perform(MockMvcRequestBuilders.post("/api/registration")
                         .content(customer)
