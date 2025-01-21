@@ -2,11 +2,13 @@ package io.github.ger1211.auth_service.unit.controller;
 
 import io.github.ger1211.auth_service.config.SecurityConfig;
 import io.github.ger1211.auth_service.controller.AuthenticationController;
+import io.github.ger1211.auth_service.service.CustomerDetailsService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -19,6 +21,9 @@ public class AuthenticationControllerTests {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockitoBean
+    private CustomerDetailsService customerDetailsService;
 
     @Test
     public void register_withValidEmail_responseOk() throws Exception {

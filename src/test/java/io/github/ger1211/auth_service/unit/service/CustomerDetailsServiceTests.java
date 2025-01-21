@@ -16,7 +16,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-public class CustomerDetailsServiceTest extends AuthServiceApplicationTests {
+public class CustomerDetailsServiceTests extends AuthServiceApplicationTests {
 
     @Mock
     private AuthenticationRepository authenticationRepository;

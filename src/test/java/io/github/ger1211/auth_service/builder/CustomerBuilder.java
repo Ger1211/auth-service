@@ -21,4 +21,9 @@ public class CustomerBuilder extends AbstractPersistenceBuilder<Customer> {
         builder.instance.setId(id);
         return builder;
     }
+
+    public CustomerBuilder withPassword(String password) {
+        this.instance.setPassword(password);
+        return this;
+    }
 }
