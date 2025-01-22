@@ -1,29 +1,21 @@
 package io.github.ger1211.auth_service.unit.controller;
 
-import io.github.ger1211.auth_service.config.SecurityConfig;
-import io.github.ger1211.auth_service.controller.AuthenticationController;
-import io.github.ger1211.auth_service.service.CustomerDetailsService;
+import io.github.ger1211.auth_service.AuthServiceApplicationTests;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-@WebMvcTest(AuthenticationController.class)
-@ContextConfiguration(classes= { SecurityConfig.class, AuthenticationController.class })
-public class AuthenticationControllerTests {
+@AutoConfigureMockMvc
+public class AuthenticationControllerTests extends AuthServiceApplicationTests {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @MockitoBean
-    private CustomerDetailsService customerDetailsService;
 
     @Test
     void register_withValidEmail_responseOk() throws Exception {

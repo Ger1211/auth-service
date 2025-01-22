@@ -1,8 +1,6 @@
 package io.github.ger1211.auth_service.unit.service;
 
 import io.github.ger1211.auth_service.AuthServiceApplicationTests;
-import io.github.ger1211.auth_service.builder.CustomerBuilder;
-import io.github.ger1211.auth_service.model.Customer;
 import io.github.ger1211.auth_service.service.JwtService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +22,16 @@ public class JwtServiceTests extends AuthServiceApplicationTests {
 
     @Test
     void generateToken_withValidCustomer_returnJwtToken() {
-        Customer customer = CustomerBuilder.valid().build();
-        String jwtToken = jwtService.generateToken(customer);
+        String email = "valid@mail.com";
+        String jwtToken = jwtService.generateToken(email);
 
         assertNotNull(jwtToken);
     }
 
     @Test
     void validateToken_withValidToken_returnTrue() {
-        Customer customer = CustomerBuilder.valid().build();
-        String jwtToken = jwtService.generateToken(customer);
+        String email = "valid@mail.com";
+        String jwtToken = jwtService.generateToken(email);
 
         assertTrue(jwtService.validateToken(jwtToken));
     }
@@ -47,26 +45,24 @@ public class JwtServiceTests extends AuthServiceApplicationTests {
 
     @Test
     void getSubject_fromToken_returnCustomerEmail() {
-        Customer customer = CustomerBuilder.valid().build();
-        String jwtToken = jwtService.generateToken(customer);
+        String email = "valid@mail.com";
+        String jwtToken = jwtService.generateToken(email);
 
-        assertThat(jwtService.getSubject(jwtToken)).isEqualTo(customer.getEmail());
+        assertThat(jwtService.getSubject(jwtToken)).isEqualTo(email);
     }
 
     @Test
     void isTokenExpired_withTokenNonExpired_returnFalse() {
-        Customer customer = CustomerBuilder.valid().build();
-
-        String jwtToken = jwtService.generateToken(customer);
+        String email = "valid@mail.com";
+        String jwtToken = jwtService.generateToken(email);
 
         assertFalse(jwtService.isTokenExpired(jwtToken));
     }
 
     @Test
     void isTokenExpired_withTokenExpired_returnTrue() {
-        Customer customer = CustomerBuilder.valid().build();
-
-        String jwtToken = jwtService.generateToken(customer);
+        String email = "valid@mail.com";
+        String jwtToken = jwtService.generateToken(email);
 
         waitOneSecond();
 

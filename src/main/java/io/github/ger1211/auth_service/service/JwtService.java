@@ -1,6 +1,5 @@
 package io.github.ger1211.auth_service.service;
 
-import io.github.ger1211.auth_service.model.Customer;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -20,10 +19,10 @@ public class JwtService {
         this.expirationTimeInMillis = expirationTimeInMillis;
     }
 
-    public String generateToken(Customer customer) {
+    public String generateToken(String email) {
         Date expirationDate = new Date(System.currentTimeMillis() + expirationTimeInMillis);
         return Jwts.builder()
-                .subject(customer.getEmail())
+                .subject(email)
                 .issuedAt(new Date())
                 .expiration(expirationDate)
                 .signWith(SECRET_KEY)

@@ -3,9 +3,11 @@ package io.github.ger1211.auth_service.controller.vo;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class CustomerVo {
 
     @Email(message = "Email is invalid")
