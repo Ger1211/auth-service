@@ -1,14 +1,18 @@
 package io.github.ger1211.auth_service.unit.controller;
 
 import io.github.ger1211.auth_service.AuthServiceApplicationTests;
+import io.github.ger1211.auth_service.service.AuthenticationService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @AutoConfigureMockMvc
@@ -16,6 +20,9 @@ public class AuthenticationControllerTests extends AuthServiceApplicationTests {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockitoBean
+    private AuthenticationService authenticationService;
 
     @Test
     void register_withValidEmail_responseOk() throws Exception {
@@ -91,5 +98,16 @@ public class AuthenticationControllerTests extends AuthServiceApplicationTests {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(jsonPath("$.password").value("Password must contain at least one uppercase letter, one number, one special character, and be at least 8 characters long"));
+    }
+
+    @Test
+    void register_withValidCustomerButErrorOnService_responseBadRequest() throws Exception {
+        when(authenticationService.register(any())).thenThrow(new Exception());
+
+        String customerRequest = "{\"email\": \"valid@email.com\",\"password\": \"Password123@\" }";
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/registration")
+                        .content(customerRequest)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 }

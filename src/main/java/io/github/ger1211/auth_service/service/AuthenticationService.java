@@ -20,9 +20,9 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final AuthenticationRepository authenticationRepository;
 
-    public Customer register(Customer customer) {
-        String encodedPassword = passwordEncoder.encode(customer.getPassword());
-        customer.setPassword(encodedPassword);
+    public Customer register(CustomerVo customerVo) throws Exception {
+        String encodedPassword = passwordEncoder.encode(customerVo.getPassword());
+        Customer customer = new Customer(null, customerVo.getEmail(), encodedPassword);
         return authenticationRepository.save(customer);
     }
 

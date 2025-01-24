@@ -2,7 +2,6 @@ package io.github.ger1211.auth_service.integration.controller;
 
 import io.github.ger1211.auth_service.AuthServiceApplicationTests;
 import io.github.ger1211.auth_service.builder.CustomerBuilder;
-import io.github.ger1211.auth_service.service.JwtService;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
@@ -28,9 +27,6 @@ public class AuthenticationControllerTests extends AuthServiceApplicationTests {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private JwtService jwtService;
 
     @Test
     void login_withRegisteredValidCustomer_responseValidToken() throws Exception {

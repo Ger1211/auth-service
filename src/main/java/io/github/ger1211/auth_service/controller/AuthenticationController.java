@@ -23,12 +23,21 @@ public class AuthenticationController {
 
     @PostMapping("/registration")
     public ResponseEntity<?> register(@Valid @RequestBody CustomerVo customer, BindingResult bindingResult) {
-        return bindingResult.hasErrors() ? ValidationHandler.handle(bindingResult) : ResponseEntity.ok().build();
+        return bindingResult.hasErrors() ? ValidationHandler.handle(bindingResult) : register(customer);
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody CustomerVo customerVo, BindingResult bindingResult) {
         return bindingResult.hasErrors() ? ValidationHandler.handle(bindingResult) : login(customerVo);
+    }
+
+    private ResponseEntity<?> register(CustomerVo customer) {
+        try {
+            authenticationService.register(customer);
+            return ResponseEntity.ok().build();
+        } catch (Exception exception) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     private ResponseEntity<?> login(CustomerVo customer) {
