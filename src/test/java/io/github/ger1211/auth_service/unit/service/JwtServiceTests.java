@@ -21,7 +21,7 @@ public class JwtServiceTests extends AuthServiceApplicationTests {
     }
 
     @Test
-    void generateToken_withValidCustomer_returnJwtToken() {
+    void generateToken_withValidEmail_returnValidJwtToken() {
         String email = "valid@mail.com";
         String jwtToken = jwtService.generateToken(email);
 

@@ -1,10 +1,10 @@
 package io.github.ger1211.auth_service.unit.service;
 
 import io.github.ger1211.auth_service.AuthServiceApplicationTests;
-import io.github.ger1211.auth_service.builder.CustomerBuilder;
-import io.github.ger1211.auth_service.model.Customer;
+import io.github.ger1211.auth_service.builder.AccountBuilder;
+import io.github.ger1211.auth_service.model.Account;
 import io.github.ger1211.auth_service.repository.AuthenticationRepository;
-import io.github.ger1211.auth_service.service.CustomerDetailsService;
+import io.github.ger1211.auth_service.service.AccountDetailsService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -16,24 +16,24 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-public class CustomerDetailsServiceTests extends AuthServiceApplicationTests {
+public class AccountDetailsServiceTests extends AuthServiceApplicationTests {
 
     @Mock
     private AuthenticationRepository authenticationRepository;
 
     @InjectMocks
-    private CustomerDetailsService customerDetailsService;
+    private AccountDetailsService accountDetailsService;
 
     @Test
     void loadUserByUsername_withValidCustomer_returnUserDetail() {
-        Customer customer = CustomerBuilder.valid().build();
+        Account account = AccountBuilder.valid().build();
 
-        when(authenticationRepository.findByEmail(customer.getEmail())).thenReturn(Optional.of(customer));
+        when(authenticationRepository.findByEmail(account.getEmail())).thenReturn(Optional.of(account));
 
-        UserDetails userDetails = customerDetailsService.loadUserByUsername(customer.getEmail());
+        UserDetails userDetails = accountDetailsService.loadUserByUsername(account.getEmail());
 
-        assertThat(userDetails.getUsername()).isEqualTo(customer.getEmail());
-        assertThat(userDetails.getPassword()).isEqualTo(customer.getPassword());
+        assertThat(userDetails.getUsername()).isEqualTo(account.getEmail());
+        assertThat(userDetails.getPassword()).isEqualTo(account.getPassword());
     }
 
     @Test
@@ -42,7 +42,7 @@ public class CustomerDetailsServiceTests extends AuthServiceApplicationTests {
         when(authenticationRepository.findByEmail(nonExistentEmail)).thenReturn(Optional.empty());
 
         assertThatExceptionOfType(UsernameNotFoundException.class)
-                .isThrownBy(() -> customerDetailsService.loadUserByUsername(nonExistentEmail))
+                .isThrownBy(() -> accountDetailsService.loadUserByUsername(nonExistentEmail))
                 .withMessageContaining(nonExistentEmail);
     }
 }

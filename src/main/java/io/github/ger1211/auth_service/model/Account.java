@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 @Entity
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class Customer {
+public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

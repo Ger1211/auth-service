@@ -1,9 +1,9 @@
 package io.github.ger1211.auth_service.integration.service;
 
 import io.github.ger1211.auth_service.AuthServiceApplicationTests;
-import io.github.ger1211.auth_service.builder.CustomerBuilder;
-import io.github.ger1211.auth_service.controller.vo.CustomerVo;
-import io.github.ger1211.auth_service.model.Customer;
+import io.github.ger1211.auth_service.builder.AccountBuilder;
+import io.github.ger1211.auth_service.controller.vo.AccountVo;
+import io.github.ger1211.auth_service.model.Account;
 import io.github.ger1211.auth_service.service.AuthenticationService;
 import io.github.ger1211.auth_service.service.JwtService;
 import io.github.ger1211.auth_service.service.dto.JwtTokenDto;
@@ -35,18 +35,18 @@ public class AuthenticationServiceTests extends AuthServiceApplicationTests {
     private JwtService jwtService;
 
     @Test
-    void login_withValidCustomer_returnJwtToken() {
+    void login_withValidAccount_returnJwtToken() {
         String password = "Password123@";
         String encryptedPassword = passwordEncoder.encode(password);
-        Customer customer = CustomerBuilder.valid().withPassword(encryptedPassword).build(entityManager);
+        Account account = AccountBuilder.valid().withPassword(encryptedPassword).build(entityManager);
 
-        JwtTokenDto jwtToken = authenticationService.login(new CustomerVo(customer.getEmail(), password));
+        JwtTokenDto jwtToken = authenticationService.login(new AccountVo(account.getEmail(), password));
 
         String token = jwtToken.getToken().substring(7);
 
         assertNotNull(token);
         assertTrue(jwtService.validateToken(token));
-        assertThat(jwtService.getSubject(token)).isEqualTo(customer.getEmail());
+        assertThat(jwtService.getSubject(token)).isEqualTo(account.getEmail());
     }
 
     @Test
@@ -54,6 +54,6 @@ public class AuthenticationServiceTests extends AuthServiceApplicationTests {
         String email = "valid@email.com";
         String password = "BadCredentials123@";
 
-        assertThatExceptionOfType(BadCredentialsException.class).isThrownBy(() -> authenticationService.login(new CustomerVo(email, password)));
+        assertThatExceptionOfType(BadCredentialsException.class).isThrownBy(() -> authenticationService.login(new AccountVo(email, password)));
     }
 }

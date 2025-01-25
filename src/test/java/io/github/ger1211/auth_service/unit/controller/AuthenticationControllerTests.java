@@ -83,30 +83,30 @@ public class AuthenticationControllerTests extends AuthServiceApplicationTests {
 
     @Test
     void register_withPasswordWithoutNumber_responseBadRequest() throws Exception {
-        String customer = "{\"email\": \"valid@email.com\",\"password\": \"Password@\" }";
+        String account = "{\"email\": \"valid@email.com\",\"password\": \"Password@\" }";
         mockMvc.perform(MockMvcRequestBuilders.post("/api/registration")
-                        .content(customer)
+                        .content(account)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
     @Test
     void register_withPasswordWithoutSpecialCharacter_responseBadRequest() throws Exception {
-        String customer = "{\"email\": \"valid@email.com\",\"password\": \"Password123\" }";
+        String account = "{\"email\": \"valid@email.com\",\"password\": \"Password123\" }";
         mockMvc.perform(MockMvcRequestBuilders.post("/api/registration")
-                        .content(customer)
+                        .content(account)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(jsonPath("$.password").value("Password must contain at least one uppercase letter, one number, one special character, and be at least 8 characters long"));
     }
 
     @Test
-    void register_withValidCustomerButErrorOnService_responseBadRequest() throws Exception {
+    void register_withValidAccountButErrorOnService_responseBadRequest() throws Exception {
         when(authenticationService.register(any())).thenThrow(new Exception());
 
-        String customerRequest = "{\"email\": \"valid@email.com\",\"password\": \"Password123@\" }";
+        String accountRequest = "{\"email\": \"valid@email.com\",\"password\": \"Password123@\" }";
         mockMvc.perform(MockMvcRequestBuilders.post("/api/registration")
-                        .content(customerRequest)
+                        .content(accountRequest)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }

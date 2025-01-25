@@ -1,7 +1,7 @@
 package io.github.ger1211.auth_service.integration.controller;
 
 import io.github.ger1211.auth_service.AuthServiceApplicationTests;
-import io.github.ger1211.auth_service.builder.CustomerBuilder;
+import io.github.ger1211.auth_service.builder.AccountBuilder;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
@@ -29,9 +29,9 @@ public class AuthenticationControllerTests extends AuthServiceApplicationTests {
     private PasswordEncoder passwordEncoder;
 
     @Test
-    void login_withRegisteredValidCustomer_responseValidToken() throws Exception {
+    void login_withRegisteredValidAccount_responseValidToken() throws Exception {
         String passwordEncrypted = passwordEncoder.encode("Password123@");
-        CustomerBuilder.valid().withPassword(passwordEncrypted).build(entityManager);
+        AccountBuilder.valid().withPassword(passwordEncrypted).build(entityManager);
 
         String authRequest = "{\"email\": \"valid@mail.com\",\"password\": \"Password123@\" }";
         mockMvc.perform(MockMvcRequestBuilders.post("/api/login")

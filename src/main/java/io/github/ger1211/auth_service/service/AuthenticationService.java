@@ -1,7 +1,7 @@
 package io.github.ger1211.auth_service.service;
 
-import io.github.ger1211.auth_service.controller.vo.CustomerVo;
-import io.github.ger1211.auth_service.model.Customer;
+import io.github.ger1211.auth_service.controller.vo.AccountVo;
+import io.github.ger1211.auth_service.model.Account;
 import io.github.ger1211.auth_service.repository.AuthenticationRepository;
 import io.github.ger1211.auth_service.service.dto.JwtTokenDto;
 import lombok.RequiredArgsConstructor;
@@ -20,15 +20,15 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final AuthenticationRepository authenticationRepository;
 
-    public Customer register(CustomerVo customerVo) throws Exception {
-        String encodedPassword = passwordEncoder.encode(customerVo.getPassword());
-        Customer customer = new Customer(null, customerVo.getEmail(), encodedPassword);
-        return authenticationRepository.save(customer);
+    public Account register(AccountVo accountVo) throws Exception {
+        String encodedPassword = passwordEncoder.encode(accountVo.getPassword());
+        Account account = new Account(null, accountVo.getEmail(), encodedPassword);
+        return authenticationRepository.save(account);
     }
 
-    public JwtTokenDto login(CustomerVo customerVo) throws BadCredentialsException {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(customerVo.getEmail(), customerVo.getPassword()));
-        String jwtToken = jwtService.generateToken(customerVo.getEmail());
+    public JwtTokenDto login(AccountVo accountVo) throws BadCredentialsException {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(accountVo.getEmail(), accountVo.getPassword()));
+        String jwtToken = jwtService.generateToken(accountVo.getEmail());
         return new JwtTokenDto(jwtToken);
     }
 }

@@ -1,7 +1,7 @@
 package io.github.ger1211.auth_service.controller;
 
 import io.github.ger1211.auth_service.controller.handler.ValidationHandler;
-import io.github.ger1211.auth_service.controller.vo.CustomerVo;
+import io.github.ger1211.auth_service.controller.vo.AccountVo;
 import io.github.ger1211.auth_service.service.AuthenticationService;
 import io.github.ger1211.auth_service.service.dto.JwtTokenDto;
 import jakarta.validation.Valid;
@@ -22,16 +22,16 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/registration")
-    public ResponseEntity<?> register(@Valid @RequestBody CustomerVo customer, BindingResult bindingResult) {
+    public ResponseEntity<?> register(@Valid @RequestBody AccountVo customer, BindingResult bindingResult) {
         return bindingResult.hasErrors() ? ValidationHandler.handle(bindingResult) : register(customer);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody CustomerVo customerVo, BindingResult bindingResult) {
-        return bindingResult.hasErrors() ? ValidationHandler.handle(bindingResult) : login(customerVo);
+    public ResponseEntity<?> login(@Valid @RequestBody AccountVo accountVo, BindingResult bindingResult) {
+        return bindingResult.hasErrors() ? ValidationHandler.handle(bindingResult) : login(accountVo);
     }
 
-    private ResponseEntity<?> register(CustomerVo customer) {
+    private ResponseEntity<?> register(AccountVo customer) {
         try {
             authenticationService.register(customer);
             return ResponseEntity.ok().build();
@@ -40,7 +40,7 @@ public class AuthenticationController {
         }
     }
 
-    private ResponseEntity<?> login(CustomerVo customer) {
+    private ResponseEntity<?> login(AccountVo customer) {
         try {
             JwtTokenDto token = authenticationService.login(customer);
             return ResponseEntity.ok(token);

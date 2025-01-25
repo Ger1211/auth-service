@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class CustomerVo {
+public class AccountVo {
 
     @Email(message = "Email is invalid")
     @NotEmpty(message = "Email must not be empty")
