@@ -4,6 +4,7 @@ import io.github.ger1211.auth_service.AuthServiceApplicationTests;
 import io.github.ger1211.auth_service.builder.AccountBuilder;
 import io.github.ger1211.auth_service.controller.vo.AccountVo;
 import io.github.ger1211.auth_service.model.Account;
+import io.github.ger1211.auth_service.model.Role;
 import io.github.ger1211.auth_service.service.AuthenticationService;
 import io.github.ger1211.auth_service.service.JwtService;
 import io.github.ger1211.auth_service.service.dto.JwtTokenDto;
@@ -35,10 +36,24 @@ public class AuthenticationServiceTests extends AuthServiceApplicationTests {
     private JwtService jwtService;
 
     @Test
+    void register_withValidAccountAdmin_returnAdminAccount() throws Exception{
+        String email = "valid@email.com";
+        String password = "Password123@";
+        AccountVo account = new AccountVo(email, password);
+
+        Account admin = authenticationService.register(account, Role.ROLE_ADMIN);
+
+        assertNotNull(admin);
+        assertNotNull(admin.getId());
+        assertThat(admin.getRole()).isEqualTo(Role.ROLE_ADMIN);
+        assertThat(admin.getEmail()).isEqualTo(account.getEmail());
+    }
+
+    @Test
     void login_withValidAccount_returnJwtToken() {
         String password = "Password123@";
         String encryptedPassword = passwordEncoder.encode(password);
-        Account account = AccountBuilder.valid().withPassword(encryptedPassword).build(entityManager);
+        Account account = AccountBuilder.validCustomer().withPassword(encryptedPassword).build(entityManager);
 
         JwtTokenDto jwtToken = authenticationService.login(new AccountVo(account.getEmail(), password));
 

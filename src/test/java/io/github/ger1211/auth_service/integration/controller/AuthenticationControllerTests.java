@@ -31,7 +31,7 @@ public class AuthenticationControllerTests extends AuthServiceApplicationTests {
     @Test
     void login_withRegisteredValidAccount_responseValidToken() throws Exception {
         String passwordEncrypted = passwordEncoder.encode("Password123@");
-        AccountBuilder.valid().withPassword(passwordEncrypted).build(entityManager);
+        AccountBuilder.validCustomer().withPassword(passwordEncrypted).build(entityManager);
 
         String authRequest = "{\"email\": \"valid@mail.com\",\"password\": \"Password123@\" }";
         mockMvc.perform(MockMvcRequestBuilders.post("/api/login")

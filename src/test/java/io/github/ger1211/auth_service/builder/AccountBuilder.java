@@ -1,6 +1,7 @@
 package io.github.ger1211.auth_service.builder;
 
 import io.github.ger1211.auth_service.model.Account;
+import io.github.ger1211.auth_service.model.Role;
 import io.github.ger1211.builder.builder.AbstractPersistenceBuilder;
 
 public class AccountBuilder extends AbstractPersistenceBuilder<Account> {
@@ -9,15 +10,16 @@ public class AccountBuilder extends AbstractPersistenceBuilder<Account> {
         this.instance = new Account();
     }
 
-    public static AccountBuilder valid() {
+    public static AccountBuilder validCustomer() {
         AccountBuilder builder = new AccountBuilder();
         builder.instance.setEmail("valid@mail.com");
         builder.instance.setPassword("Password123@");
+        builder.instance.setRole(Role.ROLE_CUSTOMER);
         return builder;
     }
 
-    public static AccountBuilder valid(Long id) {
-        AccountBuilder builder = AccountBuilder.valid();
+    public static AccountBuilder validCustomer(Long id) {
+        AccountBuilder builder = AccountBuilder.validCustomer();
         builder.instance.setId(id);
         return builder;
     }

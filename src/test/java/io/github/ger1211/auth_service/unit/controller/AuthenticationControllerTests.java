@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -25,12 +26,12 @@ public class AuthenticationControllerTests extends AuthServiceApplicationTests {
     private AuthenticationService authenticationService;
 
     @Test
-    void register_withValidEmail_responseOk() throws Exception {
+    void register_withValidEmail_responseCreated() throws Exception {
         String customer = "{\"email\": \"valid@email.com\",\"password\": \"Password123@\" }";
         mockMvc.perform(MockMvcRequestBuilders.post("/api/registration")
                         .content(customer)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(MockMvcResultMatchers.status().isCreated());
     }
 
     @Test
@@ -102,12 +103,22 @@ public class AuthenticationControllerTests extends AuthServiceApplicationTests {
 
     @Test
     void register_withValidAccountButErrorOnService_responseBadRequest() throws Exception {
-        when(authenticationService.register(any())).thenThrow(new Exception());
+        when(authenticationService.register(any(), any())).thenThrow(new Exception());
 
         String accountRequest = "{\"email\": \"valid@email.com\",\"password\": \"Password123@\" }";
         mockMvc.perform(MockMvcRequestBuilders.post("/api/registration")
                         .content(accountRequest)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(username = "admin@example.com", roles = {"ADMIN"})
+    void registerAdmin_withValidEmail_responseCreated() throws Exception {
+        String customer = "{\"email\": \"valid@email.com\",\"password\": \"Password123@\" }";
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/registration/admins")
+                        .content(customer)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isCreated());
     }
 }

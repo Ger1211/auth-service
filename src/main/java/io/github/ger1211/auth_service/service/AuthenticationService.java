@@ -2,6 +2,7 @@ package io.github.ger1211.auth_service.service;
 
 import io.github.ger1211.auth_service.controller.vo.AccountVo;
 import io.github.ger1211.auth_service.model.Account;
+import io.github.ger1211.auth_service.model.Role;
 import io.github.ger1211.auth_service.repository.AuthenticationRepository;
 import io.github.ger1211.auth_service.service.dto.JwtTokenDto;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +21,9 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final AuthenticationRepository authenticationRepository;
 
-    public Account register(AccountVo accountVo) throws Exception {
+    public Account register(AccountVo accountVo, Role role) throws Exception {
         String encodedPassword = passwordEncoder.encode(accountVo.getPassword());
-        Account account = new Account(null, accountVo.getEmail(), encodedPassword);
+        Account account = new Account(null, accountVo.getEmail(), encodedPassword, role);
         return authenticationRepository.save(account);
     }
 

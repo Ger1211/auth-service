@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 public class AccountDetailsServiceTests extends AuthServiceApplicationTests {
@@ -26,7 +27,7 @@ public class AccountDetailsServiceTests extends AuthServiceApplicationTests {
 
     @Test
     void loadUserByUsername_withValidCustomer_returnUserDetail() {
-        Account account = AccountBuilder.valid().build();
+        Account account = AccountBuilder.validCustomer().build();
 
         when(authenticationRepository.findByEmail(account.getEmail())).thenReturn(Optional.of(account));
 
@@ -34,6 +35,8 @@ public class AccountDetailsServiceTests extends AuthServiceApplicationTests {
 
         assertThat(userDetails.getUsername()).isEqualTo(account.getEmail());
         assertThat(userDetails.getPassword()).isEqualTo(account.getPassword());
+        assertTrue(userDetails.getAuthorities().stream()
+                .anyMatch(auth -> auth.getAuthority().equals(account.getRole().name())));
     }
 
     @Test

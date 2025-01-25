@@ -1,9 +1,6 @@
 package io.github.ger1211.auth_service.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -19,4 +16,6 @@ public class Account {
     private Long id;
     private String email;
     private String password;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 }
